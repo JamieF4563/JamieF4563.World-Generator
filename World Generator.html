@@ -1,12 +1,53 @@
 <!Doctype html>
 <body>
-<canvas id="myCanvas" width="2400" height="2400">
+	<button "a1" type = "submit" value = "1" name = "button1" id = "add1" onclick = arXFunc();>+rX</button><br>
+	<button "a2" type = "submit" value = "2" name = "button2" id = "add2" onclick = arYFunc();>+rY</button><br>
+	<button "a3" type = "submit" value = "3" name = "button3" id = "add3" onclick = arZFunc();>+rZ</button><br>
+	<button "s1" type = "submit" value = "4" name = "button4" id = "sub1" onclick = mrXFunc();>-rX</button><br>
+	<button "s2" type = "submit" value = "5" name = "button5" id = "sub2" onclick = mrYFunc();>-rY</button><br>
+	<button "s3" type = "submit" value = "6" name = "button6" id = "sub3" onclick = mrZFunc();>-rZ</button><br>
+	<script id = "rotate">
+		var rX=0;
+		var rY=0;
+		var rZ=0;
+		function arXFunc(){
+			rX+=10;
+		}
+		function arYFunc(){
+			rY+=10;
+		}
+		function arZFunc(){
+			rZ+=10;
+		}
+		function mrXFunc(){
+			rX-=10;
+		}
+		function mrYFunc(){
+			rY-=10;
+		}
+		function mrZFunc(){
+			rZ-=10;
+		}
+		document.getElementById("add1").onclick = arXFunc;
+		document.getElementById("add2").onclick = arYFunc;
+		document.getElementById("add3").onclick = arZFunc;
+		document.getElementById("sub1").onclick = mrXFunc;
+		document.getElementById("sub2").onclick = mrYFunc;
+		document.getElementById("sub3").onclick = mrZFunc;
+		console.log(rX);
+		console.log(rY);
+		console.log(rZ);
+	</script> 
+<canvas id="myCanvas" width="300" height="300">
 <script src="Rotation methods.js"></script>
 <script>
+console.log(rX);
+console.log(rY);
+console.log(rZ);
 var generateWorld=function(p1,p2){
-	var worldRadius=(((Math.random()*3)+1)/2)*637.1;
+	var worldRadius=(((Math.random()*3)+1)/2)*(6371/100);
 	var worldSA=4*Math.PI*Math.pow(worldRadius,2);
-	var totalLandArea=0.3*worldSA;
+	var totalLandArea=0.2*worldSA;
 	var points=[];
 	for(var x=0;x<=worldRadius;x++){
 		var newRad=Math.sqrt(Math.pow(worldRadius,2)-Math.pow(x,2));
@@ -20,11 +61,11 @@ var generateWorld=function(p1,p2){
 			var f=[-x,y,-z];
 			var g=[-x,-y,z];
 			var h=[-x,-y,-z];
-			points.push(a);
 			points.push(b);
+			points.push(a);
 			points.push(c);
-			points.push(d);
 			points.push(e);
+			points.push(d);
 			points.push(f);
 			points.push(g);
 			points.push(h);
@@ -41,6 +82,7 @@ var generateWorld=function(p1,p2){
 };
 var newVar=generateWorld();
 var nodes=[];
+console.log(newVar.TotalLandArea);
 for(var i=0;i<newVar.TotalLandArea;i++){
 	var randIndex=Math.floor(Math.random()*newVar.Points.length);
 	var a=newVar.Points[randIndex];
@@ -48,23 +90,31 @@ for(var i=0;i<newVar.TotalLandArea;i++){
 	newVar.Points.splice(randIndex,1);
 }
 console.log(newVar);
+console.log(nodes);
 var c=document.getElementById("myCanvas");
 var ctx=c.getContext("2d");
 ctx.beginPath();
-ctx.translate(1200,1200);
+ctx.translate(150,150);
 ctx.arc(0,0,newVar.WorldRadius,0,2*Math.PI);
 ctx.fillStyle="blue";
 ctx.fill();
-ctx.endPath();
+ctx.closePath();
 ctx.beginPath();
-ctx.translate(1200,1200);
-rotateZ3D();
-rotateX3D();
-roateY3D();
+console.log(rX);
+console.log(rY);
+console.log(rZ);
+/*
+rotateZ3D(rZ,nodes);
+rotateX3D(rX,nodes);
+rotateY3D(rY,nodes);
+*/
 for(var n=0;n<nodes.length;n++){
 	var node=nodes[n];
 	ctx.rect(node[0],node[1],1,1);
+	ctx.fillStyle='rgb(166,135,88';
+	ctx.fill();
 }
+ctx.closePath();
 </script>
 </canvas>
 </body>
