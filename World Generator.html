@@ -1,0 +1,71 @@
+<!Doctype html>
+<body>
+<canvas id="myCanvas" width="2400" height="2400">
+<script src="Rotation methods.js"></script>
+<script>
+var generateWorld=function(p1,p2){
+	var worldRadius=(((Math.random()*3)+1)/2)*637.1;
+	var worldSA=4*Math.PI*Math.pow(worldRadius,2);
+	var totalLandArea=0.3*worldSA;
+	var points=[];
+	for(var x=0;x<=worldRadius;x++){
+		var newRad=Math.sqrt(Math.pow(worldRadius,2)-Math.pow(x,2));
+		for(var y=0;y<=newRad;y++){
+			var z=Math.sqrt(Math.pow(newRad,2)-Math.pow(x,2)-Math.pow(y,2));
+			var a=[x,y,z];
+			var b=[x,y,-z];
+			var c=[x,-y,z];
+			var d=[x,-y,-z];
+			var e=[-x,y,z];
+			var f=[-x,y,-z];
+			var g=[-x,-y,z];
+			var h=[-x,-y,-z];
+			points.push(a);
+			points.push(b);
+			points.push(c);
+			points.push(d);
+			points.push(e);
+			points.push(f);
+			points.push(g);
+			points.push(h);
+		}
+	}
+	var i={
+		WorldRadius:worldRadius,
+		WorldSA:worldSA,
+		TotalLandArea:totalLandArea,
+		Points:points
+	};
+	console.log(i);
+	return i;
+};
+var newVar=generateWorld();
+var nodes=[];
+for(var i=0;i<newVar.TotalLandArea;i++){
+	var randIndex=Math.floor(Math.random()*newVar.Points.length);
+	var a=newVar.Points[randIndex];
+	nodes.push(a);
+	newVar.Points.splice(randIndex,1);
+}
+console.log(newVar);
+var c=document.getElementById("myCanvas");
+var ctx=c.getContext("2d");
+ctx.beginPath();
+ctx.translate(1200,1200);
+ctx.arc(0,0,newVar.WorldRadius,0,2*Math.PI);
+ctx.fillStyle="blue";
+ctx.fill();
+ctx.endPath();
+ctx.beginPath();
+ctx.translate(1200,1200);
+rotateZ3D();
+rotateX3D();
+roateY3D();
+for(var n=0;n<nodes.length;n++){
+	var node=nodes[n];
+	ctx.rect(node[0],node[1],1,1);
+}
+</script>
+</canvas>
+</body>
+</html>
